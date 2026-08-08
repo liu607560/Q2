@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>记录</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root { --ink: #202522; --muted: #7b827d; --line: #e5e8e4; --paper: #fffefb; --mint: #d9eee1; --mint-strong: #387558; --soft: #f5f6f2; --coral: #eb8066; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #f2f3ee; color: var(--ink); font: 14px "Noto Sans SC", sans-serif; }
+    button, input, textarea { font: inherit; color: inherit; }
+    button { border: 0; cursor: pointer; }
+    .app { display: grid; grid-template-columns: 240px minmax(0, 1fr) 300px; min-height: 100vh; max-width: 1540px; margin: auto; background: var(--paper); }
+    .sidebar { padding: 30px 18px; border-right: 1px solid var(--line); background: #fafbf8; display: flex; flex-direction: column; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 10px 30px; font: 700 21px "Source Serif 4", serif; }
+    .brand-mark { width: 28px; height: 28px; display: grid; place-items: center; background: var(--mint-strong); color: white; border-radius: 7px; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; padding: 0 10px 9px; color: var(--muted); font-size: 12px; }
+    .icon-button { display: grid; place-items: center; width: 28px; height: 28px; color: var(--muted); background: transparent; border-radius: 5px; }
+    .icon-button:hover { color: var(--ink); background: var(--line); }
+    .task-list { display: grid; gap: 4px; }
+    .task-link { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px; text-align: left; border-radius: 6px; background: transparent; }
+    .task-link:hover { background: #f0f2ed; }.task-link.active { background: var(--mint); color: #24533d; font-weight: 600; }
+    .task-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex: 0 0 auto; }.task-count { margin-left: auto; font-size: 12px; color: var(--muted); }
+    .bottom-nav { margin-top: auto; border-top: 1px solid var(--line); padding-top: 16px; }.bottom-nav button { width: 100%; display: flex; gap: 10px; padding: 9px 10px; color: var(--muted); text-align: left; background: transparent; }
+    .workspace { padding: 28px clamp(26px, 5vw, 76px); min-width: 0; }.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }.crumb { color: var(--muted); }.crumb strong { color: var(--ink); font-weight: 600; }.saved { display: flex; align-items: center; gap: 6px; color: var(--mint-strong); font-size: 12px; }
+    .note-label { color: var(--mint-strong); font-size: 12px; font-weight: 700; letter-spacing: .08em; }.note-title { width: 100%; margin: 12px 0 25px; padding: 0; border: 0; outline: 0; background: transparent; font: 600 clamp(32px, 4vw, 48px) "Source Serif 4", serif; }.note-title::placeholder, .note-body::placeholder { color: #b4bab5; }
+    .editor-actions { display: flex; align-items: center; gap: 2px; padding: 10px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }.tool { width: 32px; height: 30px; display: grid; place-items: center; border-radius: 4px; background: transparent; }.tool:hover { background: var(--soft); }.tool.active { background: var(--mint); color: var(--mint-strong); }.tool i { width: 16px; }
+    .note-body { width: 100%; min-height: 420px; resize: none; border: 0; outline: 0; padding: 25px 0; background: transparent; color: #3b423d; line-height: 1.95; font-size: 15px; }.note-footer { display: flex; gap: 14px; color: var(--muted); font-size: 12px; }
+    .tasks-panel { padding: 29px 22px; border-left: 1px solid var(--line); background: #fafbf8; }.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 23px; }.panel-head h2 { margin: 0; font-size: 16px; }.progress { margin-bottom: 28px; }.progress-text { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 9px; }.progress-track { height: 5px; background: #e5e9e4; border-radius: 9px; overflow: hidden; }.progress-fill { height: 100%; width: 0; background: var(--mint-strong); border-radius: inherit; transition: width .2s; }
+    .todo-list { display: grid; gap: 5px; }.todo { display: flex; align-items: flex-start; gap: 10px; padding: 9px 6px; border-radius: 5px; }.todo:hover { background: #f1f3ee; }.todo input { appearance: none; width: 17px; height: 17px; margin: 1px 0 0; border: 1.5px solid #bcc3bc; border-radius: 4px; flex: 0 0 auto; }.todo input:checked { border-color: var(--mint-strong); background: var(--mint-strong) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='m5 12 4 4L19 6'/%3E%3C/svg%3E") center/13px no-repeat; }.todo.done span { color: var(--muted); text-decoration: line-through; }.todo span { line-height: 1.45; flex: 1; }.delete-todo { opacity: 0; padding: 2px; color: var(--muted); background: none; }.todo:hover .delete-todo { opacity: 1; }.add-todo { display: flex; gap: 8px; margin-top: 14px; }.add-todo input { min-width: 0; flex: 1; padding: 8px 0; border: 0; border-bottom: 1px solid var(--line); outline: 0; background: transparent; }.add-todo input:focus { border-color: var(--mint-strong); }.add-todo button { width: 32px; color: white; background: var(--mint-strong); border-radius: 5px; }
+    .new-task-dialog { width: min(360px, calc(100% - 32px)); border: 0; border-radius: 8px; padding: 24px; box-shadow: 0 15px 50px #0003; }.new-task-dialog::backdrop { background: #1d292233; }.new-task-dialog h2 { margin: 0 0 18px; font-size: 18px; }.new-task-dialog input { width: 100%; padding: 10px 0; border: 0; border-bottom: 1px solid var(--line); outline: 0; }.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }.dialog-actions button { padding: 8px 12px; border-radius: 5px; background: var(--soft); }.dialog-actions .primary { color: white; background: var(--mint-strong); }
+    @media (max-width: 900px) { .app { grid-template-columns: 205px minmax(0, 1fr); }.tasks-panel { grid-column: 2; border-left: 0; border-top: 1px solid var(--line); }.workspace { padding-bottom: 35px; }.tasks-panel { padding: 24px clamp(26px, 5vw, 76px); }.todo-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 620px) { .app { display: block; }.sidebar { min-height: auto; padding: 17px; border-right: 0; border-bottom: 1px solid var(--line); }.brand { padding: 0 3px 15px; }.task-list { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; }.task-link { width: auto; }.bottom-nav { display: none; }.workspace { padding: 25px 22px; }.topbar { margin-bottom: 35px; }.tasks-panel { padding: 23px 22px; }.todo-list { grid-template-columns: 1fr; }.note-body { min-height: 320px; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark"><i data-lucide="notebook-pen" size="16"></i></span>记录</div>
+      <div class="section-title">我的任务 <button class="icon-button" id="newTask" title="新建任务"><i data-lucide="plus" size="16"></i></button></div>
+      <nav class="task-list" id="taskList"></nav>
+      <div class="bottom-nav"><button><i data-lucide="archive" size="16"></i>已归档</button><button><i data-lucide="settings-2" size="16"></i>设置</button></div>
+    </aside>
+    <section class="workspace">
+      <header class="topbar"><div class="crumb">任务 / <strong id="taskName"></strong></div><div class="saved"><i data-lucide="cloud-check" size="15"></i><span id="saveState">已保存</span></div></header>
+      <div class="note-label">今日笔记</div>
+      <input class="note-title" id="noteTitle" aria-label="笔记标题" placeholder="给这页起个标题" />
+      <div class="editor-actions"><button class="tool active" title="普通文本"><i data-lucide="type" size="16"></i></button><button class="tool" title="重点"><i data-lucide="bold" size="16"></i></button><button class="tool" title="清单"><i data-lucide="list-checks" size="16"></i></button></div>
+      <textarea class="note-body" id="noteBody" aria-label="笔记内容" placeholder="写下此刻的想法..." spellcheck="false"></textarea>
+      <footer class="note-footer"><span id="wordCount">0 个字</span><span id="updatedAt">刚刚更新</span></footer>
+    </section>
+    <aside class="tasks-panel">
+      <div class="panel-head"><h2>待办事项</h2><button class="icon-button" id="clearDone" title="清除已完成"><i data-lucide="check-check" size="17"></i></button></div>
+      <div class="progress"><div class="progress-text"><span id="progressLabel">还没有待办</span><span id="progressPercent">0%</span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+      <div class="todo-list" id="todoList"></div>
+      <form class="add-todo" id="addTodo"><input id="todoInput" placeholder="添加一项待办" autocomplete="off" /><button title="添加待办"><i data-lucide="plus" size="17"></i></button></form>
+    </aside>
+  </main>
+  <dialog class="new-task-dialog" id="taskDialog"><form method="dialog"><h2>新建任务</h2><input id="newTaskName" placeholder="例如：毕业设计" maxlength="24" autofocus /><div class="dialog-actions"><button value="cancel">取消</button><button class="primary" id="createTask" value="default">创建</button></div></form></dialog>
+  <script>
+    const seed = [{ id: 'work', name: '工作规划', color: '#4b89b8', title: '本周重点', body: '梳理本周的优先事项，留出不被会议打扰的深度工作时间。\n\n1. 完成项目需求文档\n2. 和设计团队确认交付时间\n3. 整理用户反馈', todos: [{text:'完成需求文档初稿',done:true},{text:'安排设计评审',done:false},{text:'回复重要邮件',done:false}] }, { id: 'study', name: '学习计划', color: '#c18b50', title: 'JavaScript 学习笔记', body: '记录今天学到的内容。', todos: [{text:'阅读一章技术书',done:false}] }, { id: 'life', name: '生活清单', color: '#b56c73', title: '周末安排', body: '给生活留一点空白。', todos: [{text:'采购食材',done:false},{text:'给家人打电话',done:true}] }];
+    let data = JSON.parse(localStorage.getItem('notebook-data') || 'null') || seed;
+    let activeId = localStorage.getItem('notebook-active') || data[0].id;
+    const $ = s => document.querySelector(s); const active = () => data.find(t => t.id === activeId) || data[0];
+    function save() { localStorage.setItem('notebook-data', JSON.stringify(data)); localStorage.setItem('notebook-active', activeId); $('#saveState').textContent = '已保存'; }
+    function renderTasks() { $('#taskList').innerHTML = data.map(t => `<button class="task-link ${t.id === activeId ? 'active' : ''}" data-id="${t.id}"><i class="task-dot" style="--dot:${t.color}"></i><span>${t.name}</span><span class="task-count">${t.todos.filter(x => !x.done).length}</span></button>`).join(''); }
+    function renderTodos() { const t = active(); const total = t.todos.length, done = t.todos.filter(x => x.done).length, pct = total ? Math.round(done / total * 100) : 0; $('#todoList').innerHTML = t.todos.map((todo, i) => `<label class="todo ${todo.done ? 'done' : ''}"><input type="checkbox" data-index="${i}" ${todo.done ? 'checked' : ''}><span>${todo.text}</span><button type="button" class="delete-todo" data-delete="${i}" title="删除"><i data-lucide="x" size="15"></i></button></label>`).join(''); $('#progressLabel').textContent = total ? `完成 ${done} / ${total}` : '还没有待办'; $('#progressPercent').textContent = `${pct}%`; $('#progressFill').style.width = `${pct}%`; lucide.createIcons(); }
+    function render() { const t = active(); $('#taskName').textContent = t.name; $('#noteTitle').value = t.title; $('#noteBody').value = t.body; $('#wordCount').textContent = `${(t.title + t.body).replace(/\s/g, '').length} 个字`; $('#updatedAt').textContent = '刚刚更新'; renderTasks(); renderTodos(); }
+    $('#taskList').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) { activeId = b.dataset.id; save(); render(); } });
+    ['noteTitle','noteBody'].forEach(id => $( '#' + id).addEventListener('input', e => { active()[id === 'noteTitle' ? 'title' : 'body'] = e.target.value; $('#wordCount').textContent = `${(active().title + active().body).replace(/\s/g, '').length} 个字`; $('#saveState').textContent = '正在保存'; clearTimeout(window.saveTimer); window.saveTimer = setTimeout(save, 350); }));
+    $('#todoList').addEventListener('change', e => { if (e.target.matches('[type=checkbox]')) { active().todos[e.target.dataset.index].done = e.target.checked; save(); renderTasks(); renderTodos(); } });
+    $('#todoList').addEventListener('click', e => { const b = e.target.closest('[data-delete]'); if (b) { active().todos.splice(b.dataset.delete, 1); save(); renderTasks(); renderTodos(); } });
+    $('#addTodo').addEventListener('submit', e => { e.preventDefault(); const input = $('#todoInput'); const text = input.value.trim(); if (!text) return; active().todos.push({text, done:false}); input.value = ''; save(); renderTasks(); renderTodos(); });
+    $('#clearDone').addEventListener('click', () => { active().todos = active().todos.filter(t => !t.done); save(); renderTasks(); renderTodos(); });
+    $('#newTask').addEventListener('click', () => { $('#taskDialog').showModal(); $('#newTaskName').focus(); });
+    $('#createTask').addEventListener('click', e => { const name = $('#newTaskName').value.trim(); if (!name) { e.preventDefault(); return; } const id = 'task-' + Date.now(); data.push({id, name, color:'#8d78ba', title:'', body:'', todos:[]}); activeId = id; $('#newTaskName').value = ''; save(); render(); });
+    lucide.createIcons(); render();
+  </script>
+</body>
+</html>
